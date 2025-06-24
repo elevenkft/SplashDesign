@@ -1,0 +1,139 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SplashDesign – Árajánlat és PDF export</title>
+
+  <!-- Google Font Noto Sans for Hungarian characters -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet"/>
+
+  <!-- html2pdf.js for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+  <!-- PDF.js könyvtár -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>
+    // beállítjuk, hol keresse a worker-scriptet
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+  </script>  
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <div id="main-container">
+
+      <!-- ─────────────────────────────────────────────────
+           Bal oszlop: Terméklista
+      ────────────────────────────────────────────────── -->
+      <aside id="product-list">
+
+        <div class="product-item"
+             draggable="true"
+             data-category="Mérleghinták"
+             data-name="Elefánt mérleghinta"
+             data-slug="elefant_merleghinta"
+             data-width-cm="550"
+             data-height-cm="250"
+             data-price="450000">
+          <img class="product-preview" src="previews/preview-elefant_merleghinta.jpg" />
+          <div class="product-info">
+            <strong>Elefánt mérleghinta</strong><br>
+            2,5 m × 5,5 m<br>
+            450 000 Ft
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ─────────────────────────────────────────────────
+           Jobb oszlop: Feltöltés, Kalibráció, Canvas, Gombok, Árajánlat, PDF export
+      ────────────────────────────────────────────────── -->
+      <section id="editor-container">
+        <h1>SplashDesign</h1>
+        <p><b>Az Eleven Kft. elrendezési rajz és árajánlat készítő szoftvere</b></p>
+
+        <!-- Beállítási útmutató panel -->
+        <details id="calibration-panel" open>
+          <summary><strong>Beállítási útmutató megjelenítése/elrejtése</strong></summary>
+        <div id="calibration-panel">
+          <p><strong>A program használata:</strong></p>
+          <ol>
+            <li>Kattints a "Alaprajz feltöltése" gombra, és válassz ki egy JPG, JPEG, PNG vagy PDF formátumú alaprajzot.</li>
+
+        <!-- Fájlfeltöltő panel -->
+        <div id="upload-container">
+          <label for="file-input" class="button">Alaprajz feltöltése</label>
+          <input type="file" id="file-input" accept="image/*,application/pdf">
+          <small>PNG/JPG/JPEG vagy PDF</small>
+        </div>
+
+            <li>Miután megjelent az alaprajz a lentebbi fehér területen, kattints egymás után két olyan pontra rajta, amelyek között ismered a valós távolságot (pl. méretarányt jelölő sáv vagy a medence két pontja). Két piros pont jelenik majd meg, melyeket egy vonal köt össze.</li>
+            <li>Add meg, hogy a két pont valóságban hány cm távolságot jelent, és kattints a "Méretarány kiszámítása" gombra.</li>
+          
+
+          <p>
+            <strong>Pixel távolság:</strong>
+            <span id="pixel-distance">0</span> px | <strong>Számított méretarány:</strong> <span id="px-per-cm">–</span> px/cm
+          </p>
+          <p>
+            <label for="real-distance">Valós távolság (cm):</label>
+            <input type="number" id="real-distance" min="1" placeholder="pl. 800" /> cm
+            <button id="compute-scale" class="button">Méretarány kiszámítása</button>
+          </p>
+
+           <li>Az oldalsó lenyíló menüből húzz át az alaprajzra termékeket.</li>
+	    <li>Kattints egy termékre, majd húzd át az áthelyezéshez, forgasd el a "Forgatás 45°" gombra kattintva vagy távolítsd el a "Törlés" gombra kattintva.</li>
+	    <li>Az elrendezési rajz elkészítése közben az oldal alján egy árajánlat is készül. Az árajánlatot és az elrendezési rajzot a "PDF exportálása" gombra kattintva mentheded el.</li>
+	    <li>Kattints a "Beállítási útmutató megjelenítése/elrejtése" sávra az útmutató összecsukásához.</li>
+          </ol>
+        </div>
+	</details>
+
+        <!-- Gombok a szerkesztéshez -->
+        <div id="canvas-controls">
+          <button id="rotate-btn" class="button" disabled>Forgatás 45°</button>
+          <button id="delete-btn" class="button" disabled>Törlés</button>
+        </div>
+
+        <!-- Canvas megjelenítő -->
+        <div id="canvas-container">
+          <canvas id="plan-canvas"></canvas>
+        </div>
+
+        <!-- Árajánlati panel -->
+        <div id="quote-panel">
+          <h2>Árajánlat</h2>
+          <table id="quote-table">
+            <thead>
+              <tr>
+                <th>Termék neve</th>
+                <th>Darab</th>
+                <th>Egységár (Ft)</th>
+                <th>Részösszeg (Ft)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Ide kerülnek a sorok JS-ből -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="text-right"><strong>Végösszeg (Ft):</strong></td>
+                <td id="quote-total">0 Ft</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <!-- PDF export gomb -->
+          <button id="export-pdf" class="button">PDF exportálása</button>
+        </div>
+      </section>
+    </div>
+  </div>
+	
+  <script src="script.js"></script>
+</body>
+</html>

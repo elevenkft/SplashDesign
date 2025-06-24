@@ -1,0 +1,298 @@
+/* styles.css */
+body {
+  margin: 0;
+  padding: 0;
+  /* Most már Google Noto Sans a fő betűtípus */
+  font-family: 'Noto Sans', sans-serif;
+  background-color: #f9f9f9;
+  color: #333333;
+}
+
+.product-category {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.product-category summary {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: #72af42;
+  color: white;
+  list-style: none;
+}
+
+.product-category[open] summary {
+  background-color: #3d4542;
+}
+
+.product-category .product-item {
+  padding-left: 1.5rem;
+  margin: 0.2rem 0;
+}
+
+#app {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+#main-container {
+  display: flex;
+  gap: 20px;
+}
+
+#product-list {
+  flex: 0 0 250px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+#product-list h2 {
+  margin-top: 0;
+  color: #72af42;
+  text-align: center;
+}
+
+#product-list p {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 12px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  cursor: grab;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+/* Új: termék előnézeti kép az oldalsó menüben */
+.product-preview {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.product-item:active {
+  cursor: grabbing;
+  background-color: #e0e0e0;
+}
+
+.product-item:hover {
+  background-color: #e8e8e8;
+}
+
+.product-info {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+/* jobb oldali oszlop: töltse ki a maradék helyet, de ne legyen túl keskeny */
+#editor-container {
+  flex: 1;           /* töltse ki a szabad teret */
+  min-width: 400px;  /* legalább 400px széles legyen (ízlés szerint állíthatod) */
+}
+
+#editor-container h1 {
+  color: #72af42;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+#editor-container p {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+#upload-container {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#plan-file {
+  display: none;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #72af42;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 0.5rem;
+}
+
+.button:hover {
+  background-color: #5d8e36;
+}
+
+#upload-container small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #666666;
+  font-size: 0.85rem;
+}
+
+#canvas-container {
+  text-align: center;
+  margin-bottom: 1rem;
+  overflow: auto;
+  border: 1px solid #cccccc;
+  background-color: #fff;
+}
+
+/* az alaprajz mindig kitöltse az oszlop szélességét */
+#plan-canvas {
+  display: block;
+  width: 100%;    /* korábban max-width:100% volt */
+  height: auto;
+}
+
+#calibration-panel {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+#calibration-panel ol {
+  padding-left: 1.5rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+#calibration-panel p {
+  margin: 0.5rem 0;
+}
+
+#calibration-panel input[type="number"] {
+  width: 5rem;
+  padding: 0.2rem;
+  margin: 0 0.5rem;
+}
+
+#canvas-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+#canvas-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#quote-panel {
+  margin-top: 1.5rem;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#quote-panel h2 {
+  margin-top: 0;
+  color: #72af42;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#quote-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+}
+
+#quote-table th,
+#quote-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#quote-table th {
+  background-color: #f0f0f0;
+}
+
+#quote-table .text-right {
+  text-align: right;
+}
+
+#quote-table tfoot td {
+  font-size: 1rem;
+}
+
+#export-pdf {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+}
+
+.pdf-title {
+  color: #72af42;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.pdf-disclaimer {
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.pdf-footer {
+  position: relative;
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #3d4542;
+}
+
+/* A summary-nek legyen jól látható címsora */
+#calibration-panel > summary {
+  list-style: none;           /* böngésző saját nyíl kikapcsolása */
+  background: #72af42;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  user-select: none;
+}
+
+/* Amikor nyitva van, kerekítés igazítása */
+#calibration-panel[open] > summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* A tartalom doboza */
+#calibration-panel > .calibration-content {
+  border: 1px solid #3d4542;
+  border-top: none;
+  padding: 1rem;
+  background: #fafafa;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
