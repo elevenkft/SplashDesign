@@ -399,16 +399,19 @@ exportPdfButton.addEventListener('click', () => {
   }
 
   let planDataUrl;
+  const prevSelected = selectedItemIndex;
+  selectedItemIndex = null;
+  redrawAll(); // <-- Itt kell először újrarajzolni kijelölés nélkül
+
   try {
     planDataUrl = canvas.toDataURL('image/png');
   } catch (e) {
     alert('A PDF exportálás nem lehetséges, mert az alaprajz képét a böngésző biztonsági korlátozásai miatt nem lehet exportálni (tainted canvas). Csak helyi gépről feltöltött képekkel működik, vagy próbáld meg más böngészővel.');
+    // Visszaállítás, ha hiba van
+    selectedItemIndex = prevSelected;
+    redrawAll();
     return;
   }
-
-  const prevSelected = selectedItemIndex;
-  selectedItemIndex = null;
-  redrawAll();
 
   const pdfContainer = document.createElement('div');
   pdfContainer.style.padding = '20px';
@@ -471,6 +474,7 @@ exportPdfButton.addEventListener('click', () => {
   };
   html2pdf().set(opt).from(pdfContainer).save();
 
+  // Visszaállítás export után
   selectedItemIndex = prevSelected;
   redrawAll();
 });
