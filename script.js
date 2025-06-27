@@ -201,30 +201,114 @@ fileInput.addEventListener('change', e => {
     e.dataTransfer.dropEffect = 'copy';
   });
 
-  canvas.addEventListener('drop', e => {
+  canvas.addEventListener('drop', async e => {
     e.preventDefault();
     if (!imgLoaded || !isCalibrated) return;
     const data = e.dataTransfer.getData('application/json');
     if (!data) return;
     const { name, slug, widthCm, heightCm, price } = JSON.parse(data);
+
+    // ÚJ: Variánsok kezelése
+    // Megkeressük az eredeti DOM elemet, hogy kiolvassuk a data-variants attribútumot
+    const productEl = Array.from(document.querySelectorAll('.product-item')).find(
+      el => el.dataset.name === name && el.dataset.slug === slug
+    );
+    let finalName = name;
+    let finalPrice = price;
+
+    if (productEl && productEl.dataset.variants) {
+      // Több kivitel van, felugró ablakot mutatunk
+      let variants;
+      try {
+        variants = JSON.parse(productEl.dataset.variants);
+      } catch {
+        variants = [];
+      }
+      if (variants.length > 0) {
+        // Felugró ablak készítése
+        finalPrice = await showVariantDialog(name, variants);
+        if (finalPrice === null) return; // Mégsem gomb
+        // A névhez hozzáfűzzük a kivitel nevét
+        const selectedVariant = variants.find(v => v.price === finalPrice);
+        if (selectedVariant) finalName = `${name} (${selectedVariant.label})`;
+      }
+    }
+
     const { x: dropX, y: dropY } = getCanvasCoords(e);
     const wPx = Math.round(widthCm * pxPerCm);
     const hPx = Math.round(heightCm * pxPerCm);
     placedItems.push({
-      name,
+      name: finalName,
       slug,
       x: dropX - wPx/2,
       y: dropY - hPx/2,
       origWidthPx: wPx,
       origHeightPx: hPx,
       angle: 0,
-      unitPrice: price,
-      image: null, // később töltjük be
+      unitPrice: finalPrice,
+      image: null,
       imageLoaded: false
     });
     redrawAll();
     updateQuoteTable();
   });
+
+  // ÚJ: Variáns választó felugró ablak
+  function showVariantDialog(productName, variants) {
+    return new Promise(resolve => {
+      // Létrehozunk egy modális ablakot
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.left = 0;
+      modal.style.top = 0;
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.background = 'rgba(0,0,0,0.3)';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.zIndex = 9999;
+
+      const box = document.createElement('div');
+      box.style.background = '#fff';
+      box.style.padding = '2rem';
+      box.style.borderRadius = '8px';
+      box.style.boxShadow = '0 2px 12px rgba(0,0,0,0.2)';
+      box.style.minWidth = '260px';
+      box.style.textAlign = 'center';
+
+      const title = document.createElement('h3');
+      title.textContent = `${productName} – kivitel választása`;
+      title.style.marginTop = '0';
+      box.appendChild(title);
+
+      variants.forEach(variant => {
+        const btn = document.createElement('button');
+        btn.textContent = `${variant.label} – ${variant.price.toLocaleString()} Ft`;
+        btn.className = 'button';
+        btn.style.margin = '0.5rem 0';
+        btn.onclick = () => {
+          document.body.removeChild(modal);
+          resolve(variant.price);
+        };
+        box.appendChild(btn);
+        box.appendChild(document.createElement('br'));
+      });
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Mégsem';
+      cancelBtn.className = 'button';
+      cancelBtn.style.background = '#aaa';
+      cancelBtn.onclick = () => {
+        document.body.removeChild(modal);
+        resolve(null);
+      };
+      box.appendChild(cancelBtn);
+
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+    });
+  }
 
   // 4. KIJELÖLÉS, MOZGATÁS
 canvas.addEventListener('mousedown', e => {
