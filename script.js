@@ -159,12 +159,12 @@ function getCanvasCoords(e) {
       quote_total: "Total (EUR):",
       pdf_export_btn: "Export PDF",
       // Product names/sizes/prices
-      prod_elefant: "Elephant seesaw",
-      prod_kaloz: "Pirate ship water cannon",
+      prod_elefant: "Elephant See-Saw",
+      prod_kaloz: "Pirate Ship Water Cannon",
       prod_madar: "Bird Water Cannon",
       // PDF
-      pdf_title: "Eleven Ltd. preliminary quotation",
-      pdf_disclaimer: "The following quotation and layout are for information only. Please contact our staff for final details.",
+      pdf_title: "Eleven Ltd. Preliminary Quotation",
+      pdf_disclaimer: "The following quotation and layout are for informational purposes only. Please contact our staff for final details.",
       pdf_footer: "Eleven Ltd. | www.aqua-parks.com | info@eleven11.hu | +36 1 436 9113",
       // Variants
       variant_choose: (name) => `${name} – choose variant`,
@@ -175,8 +175,8 @@ function getCanvasCoords(e) {
       },
       currency: "EUR",
       currency_suffix: " EUR",
-      category_merleghinta: "Seesaws",
-      category_vizagyuk: "Water cannons",
+      category_merleghinta: "See-Saws",
+      category_vizagyuk: "Water Cannons",
       category_egyeb: "Other",
       pdf_export_filename: "Preliminary Quote - Eleven Ltd.",
     }
