@@ -106,11 +106,8 @@ function getCanvasCoords(e) {
       pdf_export_btn: "PDF exportálása",
       // Product names/sizes/prices
       prod_elefant: "Elefánt mérleghinta",
-      prod_elefant_size: "5,5 m × 2,5 m",
       prod_kaloz: "Kalózhajó vízágyú",
-      prod_kaloz_size: "4 m × 3,45 m",
       prod_madar: "Madár vízágyú",
-      prod_madar_size: "3,4 m × 3,32 m",
       // PDF
       pdf_title: "Eleven Kft. előzetes árajánlat",
       pdf_disclaimer: "Az alábbi árajánlat és elrendezési rajz csak tájékoztató jellegű. Kérjük, vegye fel a kapcsolatot munkatársainkkal a végleges tartalomért.",
@@ -157,17 +154,14 @@ function getCanvasCoords(e) {
       quote_title: "Quotation",
       quote_product: "Product name",
       quote_qty: "Qty",
-      quote_unitprice: "Unit price (Ft)",
-      quote_subtotal: "Subtotal (Ft)",
-      quote_total: "Total (eur):",
+      quote_unitprice: "Unit price (EUR)",
+      quote_subtotal: "Subtotal (EUR)",
+      quote_total: "Total (EUR):",
       pdf_export_btn: "Export PDF",
       // Product names/sizes/prices
       prod_elefant: "Elephant seesaw",
-      prod_elefant_size: "5.5 m × 2.5 m",
       prod_kaloz: "Pirate ship water cannon",
-      prod_kaloz_size: "4 m × 3.45 m",
-      prod_madar: "Bird water cannon",
-      prod_madar_size: "3.4 m × 3.32 m",
+      prod_madar: "Bird Water Cannon",
       // PDF
       pdf_title: "Eleven Ltd. preliminary quotation",
       pdf_disclaimer: "The following quotation and layout are for information only. Please contact our staff for final details.",
